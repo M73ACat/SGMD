@@ -24,7 +24,7 @@ The correlation coefficient threshold and NMSE threshold were 0.95 and 0.01 in M
 <div align=center>
 <img src=https://user-images.githubusercontent.com/72395068/216860430-8d09f070-c548-4538-a1e2-d514c382a60b.png width=640/>
 <div>Fig.1 The same simulation signal as in literature 1.</div>
-<\div>
+</div>
 <div align=center>
 <img src=https://user-images.githubusercontent.com/72395068/216860595-a8c12df0-b32f-4528-a40a-175acecc5f1d.png width=640/>
 <div>Fig.2 The decomposition results given in the SGMD paper.</div>
