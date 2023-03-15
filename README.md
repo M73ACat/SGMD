@@ -18,6 +18,8 @@ A simple program to implement the Symplectic geometry mode decomposition (SGMD),
 4. In addition, it should be noted that the program does not have the same result in its Matlab and python versions, and the matlab version offers fewer expansion parameters and functions than python.
 
 # Example
+![1](https://latex.codecogs.com/svg.image?%5Cbegin%7Bcases%7Dx(t)%20=%20%7Bx_1%7D(t)%20&plus;%20%7Bx_2%7D(t)%20&plus;%20%7Bx_3%7D(t)%5C%5C%7Bx_1%7D(t)%20=%202(1%20&plus;%200.5%5Csin%20(2%5Cpi%20t))%5Csin%20(60%5Cpi%20t)%5C%5C%7Bx_2%7D(t)%20=%20%5Csin%20(120%5Cpi%20t)%5C%5C%7Bx_3%7D(t)%20=%200.5%5Ccos%20(10%5Cpi%20t)%5Cend%7Bcases%7D)
+fs = 5120 Hz, time = 1 s
 
 The correlation coefficient threshold and NMSE threshold were 0.95 and 0.01 in Matlab, and 0.8, 0.001 in Python.
 
