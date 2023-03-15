@@ -1,15 +1,17 @@
-function sgc = SGMD(x,fs,tau,threshold_corr,threshold_nmse)
+function sgc = SGMD(x,fs,tau,threshold_corr,threshold_nmse,varargin)
 % Author: M73ACat
-% 2023/02/06
+% 2023/03/15
 % Basic parameters: 
-% x                 list, input a signal x
+% x                 list, input a signal x,
 % fs                int, sample frequency of x,  
-% threshold_corr    float, the threshold of the corr (optional, default 0.95)
-% threshold_nmse    float, the threshold of the nmse (optional, default 0.95)
+% threshold_corr    float, the threshold of the corr (optional, default 0.95),
+% threshold_nmse    float, the threshold of the nmse (optional, default 0.95),
 
 % Advanced parameters: 
 % tau               int, delay time (optional, defualt 1)
- 
+% nfft              int, the number of FFT points used to calculate the PSD estimate (optional, default 0 -> 2^floor(log2(n)) ),
+% PSD_function      char, functions for calculating PSD (optional ['0'(means 'periodogram'),'1'(means 'pwelch')], default '0' -> periodogram)
+
 % Reference:
 % [1] 潘海洋. 基于辛几何模态分解和支持矩阵机的机械故障诊断方法[D]. 湖南大学, 2019.
 % [2] Pan H, Yang Y, Li X, et al. Symplectic geometry mode decomposition and its application to rotating machinery compound fault diagnosis[J]. Mechanical Systems and Signal Processing, 2019, 114:189–211. DOI: 10.1016/j.ymssp.2018.05.019.
@@ -21,7 +23,21 @@ if n<row
     x=x';
     n=row;
 end
-[a,f]=periodogram(x,[],'twosided',2^floor(log2(n)),fs);
+PSD_function = '0';
+nfft = 2^floor(log2(n));
+for i=1:length(varargin)
+    if ischar(varargin{i})
+        PSD_function = varargin{i};
+    else
+        if varargin{i} > 0; nfft = varargin{i}; end
+    end
+end
+if PSD_function == '0'
+    [a,f]=periodogram(x,[],'twosided',nfft,fs);
+else
+    window = hanning(nfft);
+    [a,f] = pwelch(x,window,nfft*(3/4),nfft,fs,'twoside');
+end
 [~,ra]=max(a(1:end/2));
 if f(ra)/fs<tel
     d=floor(n/3);
@@ -58,7 +74,11 @@ for nn=1:d
     sgc(:,nn)=y;
 end
 
-y = fliplr(sgc);
+if std(sgc(:,end)) > std(sgc(:,1))
+    y = fliplr(sgc);
+else
+    y = sgc;
+end
 indexs = linspace(1,d,d);
 flags = logical(indexs);
 x_e = sum((x-mean(x)).^2);

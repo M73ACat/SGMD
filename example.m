@@ -1,5 +1,5 @@
 % Author: M73ACat
-% 2023/02/06
+% 2023/03/15
 clc
 clear
 close all
@@ -11,7 +11,14 @@ x2_t = sin(120*pi*t);
 x3_t = 0.5*cos(10*pi*t);
 sig = x1_t + x2_t + x3_t;
 
+% nfft = 2^floor(log2(n)) and use periodogram
 SGCs = SGMD(sig,fs,1,0.95,0.01);
+
+% nfft = 1024 and use periodogram
+% SGCs = SGMD(sig,fs,1,0.95,0.01,1024);
+
+% nfft = 256 and use pwelch
+% SGCs = SGMD(sig,fs,1,0.95,0.01,256,'1');
 
 figure();
 subplot(4,1,1);
